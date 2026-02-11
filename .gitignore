@@ -1,0 +1,20 @@
+
+# Mac
+.DS_Store
+
+# Go
+server/rtc-room-server
+server/server.log
+
+# Client Build
+client/build/
+client/build_debug/
+client/build_release/
+client/CMakeLists.txt.user
+*.user
+
+# VS Code
+.vscode/
+
+# Brain
+.gemini/
