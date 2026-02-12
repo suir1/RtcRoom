@@ -1,0 +1,39 @@
+
+name: Windows Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: '6.5.0'
+        host: 'windows'
+        target: 'desktop'
+        arch: 'win64_msvc2019_64'
+
+    - name: Configure CMake
+      # Use a release build. USE_WEBRTC=ON to enable the logic (even if we don't have the lib yet, we want to try compiling)
+      # ERROR: We don't have WebRTC lib in the repo.
+      # For now, we must build with USE_WEBRTC=OFF to ensure it succeeds and gives a runnable UI.
+      # If the user wants to add WebRTC lib later, they need to include it in the repo or download it in this step.
+      run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DUSE_WEBRTC=OFF
+
+    - name: Build
+      run: cmake --build build --config Release
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: RtcRoomClient-Windows
+        path: build/Release/RtcRoomClient.exe
