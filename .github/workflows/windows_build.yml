@@ -27,7 +27,7 @@ jobs:
       # ERROR: We don't have WebRTC lib in the repo.
       # For now, we must build with USE_WEBRTC=OFF to ensure it succeeds and gives a runnable UI.
       # If the user wants to add WebRTC lib later, they need to include it in the repo or download it in this step.
-      run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DUSE_WEBRTC=OFF
+      run: cmake -B build -S client -DCMAKE_BUILD_TYPE=Release -DUSE_WEBRTC=OFF
 
     - name: Build
       run: cmake --build build --config Release
